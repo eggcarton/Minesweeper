@@ -12,7 +12,7 @@ void setup ()
 
   // make the manager
   Interactive.make( this );
-  bombs = new ArrayList<MSButton>(); //could be wrong
+  bombs = new ArrayList<MSButton>(); 
   //your code to declare and initialize buttons goes here
   buttons = new MSButton[NUM_ROWS][NUM_COLS];
   for (int r = 0; r < NUM_ROWS; r++)
@@ -20,6 +20,7 @@ void setup ()
       buttons[r][c] = new MSButton(r, c);
   for (int b = 0; b < NUM_BOMBS; b++)
     setBombs();
+  //System.out.println(isValid(NUM_ROWS, NUM_COLS));
 }
 public void setBombs()
 {
@@ -106,18 +107,31 @@ public class MSButton
   }
   public boolean isValid(int r, int c)
   {
-    if (r>0 && r < 20 && c > 0 && c < 20)
+    if (r>=0 || r < NUM_ROWS && c >=0 || c < NUM_COLS)
       return true;
     return false;
   }
   public int countBombs(int row, int col)
   {
     int numBombs = 0;
-    if(row > 0 || col > 0 && bombs.contains(buttons[row][col]))
+    if (isValid(row-1, col) && bombs.contains(buttons[row-1][col]))
+      numBombs +=1;     
+    System.out.println(numBombs);
+    if (isValid(row+1, col) && bombs.contains(buttons[row+1][col]))
       numBombs +=1;
-      System.out.println(numBombs);
-      countBombs(row,col-1);
-      countBombs(row-1,col);
+    if (isValid(row, col-1) && bombs.contains(buttons[row][col-1]))
+      numBombs +=1;
+    if (isValid(row, col+1) && bombs.contains(buttons[row][col+1]))
+      numBombs +=1;
+    if (isValid(row-1, col-1) && bombs.contains(buttons[row-1][col-1]))
+      numBombs +=1;
+    if (isValid(row-1, col+1) && bombs.contains(buttons[row-1][col+1]))
+      numBombs +=1;
+    if (isValid(row+1, col+1) && bombs.contains(buttons[row+1][col+1]))
+      numBombs +=1;
+    if (isValid(row+1, col-1) && bombs.contains(buttons[row+1][col-1]))
+      numBombs +=1;
+    System.out.println(numBombs);
     return numBombs;
   }
 }
