@@ -1,7 +1,7 @@
 import de.bezier.guido.*;
 int NUM_ROWS = 20; 
 int NUM_COLS = 20;
-int NUM_BOMBS = 100;
+int NUM_BOMBS = 50;
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> bombs; //ArrayList of just the minesweeper buttons that are mined
 
@@ -83,63 +83,70 @@ public class MSButton
   public void mousePressed () 
   {
     if (mouseButton == LEFT)
-    clicked = true; 
+      clicked = true; 
     if (mouseButton == RIGHT) {
       marked = (!marked);
       if (marked == false)
         clicked = false;
     } else if (bombs.contains(this))
-      displayLosingMessage(); //
+      displayLosingMessage(); 
     else if (countBombs(r, c)> 0 )
       buttons[r][c].setLabel(countBombs(r, c)+"");
-    else buttons[r-1][c].mousePressed();
-  }
+    else if (isValid(r, c-1))
+      buttons[r][c-1].mousePressed();
+    else if (isValid(r-1, c))
+      buttons[r-1][c].mousePressed();
+    else  if (isValid(r+1, c))
+      buttons[r+1][c].mousePressed();
+    else  if (isValid(r, c+1))
+      buttons[r][c+1].mousePressed();
+  
+}
 
-  public void draw () 
-  {    
-    if (marked)
-      fill(0);
-    else if ( clicked && bombs.contains(this) ) 
-      fill(255, 0, 0);
-    else if (clicked)
-      fill( 200 );
-    else 
-    fill( 100 );
-
-    rect(x, y, width, height);
+public void draw () 
+{    
+  if (marked)
     fill(0);
-    text(label, x+width/2, y+height/2);
-  }
-  public void setLabel(String newLabel)
-  {
-    label = newLabel;
-  }
-  public boolean isValid(int r, int c)
-  {
-    if (r>=0 || r < NUM_ROWS && c >=0 || c < NUM_COLS)
-      return true;
-    return false;
-  }
-  public int countBombs(int row, int col)
-  {
-    int numBombs = 0;
-    if (isValid(row-1, col) && bombs.contains(buttons[row-1][col]))
-      numBombs +=1;     
-    System.out.println(numBombs);
-    if (isValid(row+1, col) && bombs.contains(buttons[row+1][col]))
-      numBombs +=1;
-    if (isValid(row, col-1) && bombs.contains(buttons[row][col-1]))
-      numBombs +=1;
-    if (isValid(row, col+1) && bombs.contains(buttons[row][col+1]))
-      numBombs +=1;
-    if (isValid(row-1, col-1) && bombs.contains(buttons[row-1][col-1]))
-      numBombs +=1;
-    if (isValid(row-1, col+1) && bombs.contains(buttons[row-1][col+1]))
-      numBombs +=1;
-    if (isValid(row+1, col+1) && bombs.contains(buttons[row+1][col+1]))
-      numBombs +=1;
-    if (isValid(row+1, col-1) && bombs.contains(buttons[row+1][col-1]))
-      numBombs +=1;
-    return numBombs;
-  }
+  else if ( clicked && bombs.contains(this) ) 
+    fill(255, 0, 0);
+  else if (clicked)
+    fill( 200 );
+  else 
+  fill( 100 );
+
+  rect(x, y, width, height);
+  fill(0);
+  text(label, x+width/2, y+height/2);
+}
+public void setLabel(String newLabel)
+{
+  label = newLabel;
+}
+public boolean isValid(int r, int c)
+{
+  if (r>=0 && r < NUM_ROWS && c >=0 && c < NUM_COLS)
+    return true;
+  return false;
+}
+public int countBombs(int row, int col)
+{
+  int numBombs = 0;
+  if (isValid(row-1, col) && bombs.contains(buttons[row-1][col]))
+    numBombs +=1;     
+  if (isValid(row+1, col) && bombs.contains(buttons[row+1][col]))
+    numBombs +=1;
+  if (isValid(row, col-1) && bombs.contains(buttons[row][col-1]))
+    numBombs +=1;
+  if (isValid(row, col+1) && bombs.contains(buttons[row][col+1]))
+    numBombs +=1;
+  if (isValid(row-1, col-1) && bombs.contains(buttons[row-1][col-1]))
+    numBombs +=1;
+  if (isValid(row-1, col+1) && bombs.contains(buttons[row-1][col+1]))
+    numBombs +=1;
+  if (isValid(row+1, col+1) && bombs.contains(buttons[row+1][col+1]))
+    numBombs +=1;
+  if (isValid(row+1, col-1) && bombs.contains(buttons[row+1][col-1]))
+    numBombs +=1;
+  return numBombs;
+}
 }
