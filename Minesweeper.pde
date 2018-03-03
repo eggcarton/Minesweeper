@@ -27,7 +27,6 @@ public void setBombs()
   int col = (int)(Math.random()*NUM_COLS);
   if (!bombs.contains(buttons[row][col]))
     bombs.add(buttons[row][col]);
-  System.out.println(row + "," + col);
 }
 
 public void draw ()
