@@ -1,4 +1,4 @@
-//can add reset,message textbox,user bomb input
+//can add reset,message textbox,user bomb input, end click
 import de.bezier.guido.*;
 int NUM_ROWS = 20; 
 int NUM_COLS = 20;
@@ -52,14 +52,12 @@ public void displayLosingMessage()
   String lo = "You Lost...";
   for (int i = 0; i < lo.length(); i++)
   buttons[10][5+i].setLabel(lo.substring(i, i+1));
-  noLoop();
 }
 public void displayWinningMessage()
 {
   String win = "You Win!";
   for (int i = 0; i < win.length(); i++)
   buttons[10][6+i].setLabel(win.substring(i, i+1));
-  noLoop();
 }
 
 public class MSButton
